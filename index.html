@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .display {
+            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .display-history {
+            color: #b2bec3;
+            font-size: 14px;
+            min-height: 20px;
+            word-wrap: break-word;
+            text-align: right;
+            width: 100%;
+        }
+
+        .display-current {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 300;
+            word-wrap: break-word;
+            text-align: right;
+            width: 100%;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 10px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .mode-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f5f5f5;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-number {
+            background: #fff;
+        }
+
+        .btn-operator {
+            background: #ffeaa7;
+            color: #2d3436;
+        }
+
+        .btn-function {
+            background: #74b9ff;
+            color: #2d3436;
+            font-size: 14px;
+        }
+
+        .btn-equals {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-clear {
+            background: #ff7675;
+            color: white;
+        }
+
+        .btn-wide {
+            grid-column: span 2;
+        }
+
+        .scientific-buttons {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .scientific-buttons.active {
+            display: grid;
+        }
+
+        .btn-sci {
+            padding: 15px 10px;
+            font-size: 13px;
+        }
+
+        .memory-display {
+            background: #dfe6e9;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #2d3436;
+            text-align: center;
+        }
+
+        .history-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #2d3436;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .history-item:hover {
+            background: #e9ecef;
+            padding-left: 5px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .clear-history {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+None
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="mode-tabs">
+            <button class="mode-tab active" onclick="setMode('basic')">Basic</button>
+            <button class="mode-tab" onclick="setMode('scientific')">Scientific</button>
+        </div>
+
+        <div class="history-panel" id="historyPanel">
+            <div id="historyList"></div>
+            <button class="clear-history" onclick="clearHistory()">Clear History</button>
+        </div>
+
+        <div class="display">
+            <div class="display-history" id="history"></div>
+            <div class="display-current" id="display">0</div>
+        </div>
+
+        <div class="scientific-buttons" id="scientificButtons">
+            <button class="btn btn-function btn-sci" onclick="scientificOp('sin')">sin</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('cos')">cos</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('tan')">tan</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('log')">log</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('ln')">ln</button>
+            
+            <button class="btn btn-function btn-sci" onclick="scientificOp('asin')">sin⁻¹</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('acos')">cos⁻¹</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('atan')">tan⁻¹</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('exp')">eˣ</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('pow')">xʸ</button>
+            
+            <button class="btn btn-function btn-sci" onclick="scientificOp('sinh')">sinh</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('cosh')">cosh</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('tanh')">tanh</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('square')">x²</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('cube')">x³</button>
+            
+            <button class="btn btn-function btn-sci" onclick="addNumber('3.14159')">π</button>
+            <button class="btn btn-function btn-sci" onclick="addNumber('2.71828')">e</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('sqrt')">√x</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('cbrt')">∛x</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('factorial')">x!</button>
+            
+            <button class="btn btn-function btn-sci" onclick="scientificOp('abs')">|x|</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('reciprocal')">1/x</button>
+            <button class="btn btn-function btn-sci" onclick="scientificOp('percent')">%</button>
+            <button class="btn btn-function btn-sci" onclick="toggleDegRad()"><span id="angleMode">DEG</span></button>
+            <button class="btn btn-function btn-sci" onclick="toggleHistory()">History</button>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-function" onclick="memoryOp('add')">M+</button>
+            <button class="btn btn-function" onclick="memoryOp('subtract')">M-</button>
+            <button class="btn btn-function" onclick="memoryOp('recall')">MR</button>
+            <button class="btn btn-function" onclick="memoryOp('clear')">MC</button>
+            
+            <button class="btn btn-clear" onclick="clearAll()">AC</button>
+            <button class="btn btn-function" onclick="backspace()">⌫</button>
+            <button class="btn btn-operator" onclick="addOperator('%')">%</button>
+            <button class="btn btn-operator" onclick="addOperator('/')">÷</button>
+            
+            <button class="btn btn-number" onclick="addNumber('7')">7</button>
+            <button class="btn btn-number" onclick="addNumber('8')">8</button>
+            <button class="btn btn-number" onclick="addNumber('9')">9</button>
+            <button class="btn btn-operator" onclick="addOperator('*')">×</button>
+            
+            <button class="btn btn-number" onclick="addNumber('4')">4</button>
+            <button class="btn btn-number" onclick="addNumber('5')">5</button>
+            <button class="btn btn-number" onclick="addNumber('6')">6</button>
+            <button class="btn btn-operator" onclick="addOperator('-')">−</button>
+            
+            <button class="btn btn-number" onclick="addNumber('1')">1</button>
+            <button class="btn btn-number" onclick="addNumber('2')">2</button>
+            <button class="btn btn-number" onclick="addNumber('3')">3</button>
+            <button class="btn btn-operator" onclick="addOperator('+')">+</button>
+            
+            <button class="btn btn-number" onclick="toggleSign()">±</button>
+            <button class="btn btn-number" onclick="addNumber('0')">0</button>
+            <button class="btn btn-number" onclick="addDecimal()">.</button>
+            <button class="btn btn-equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let history = document.getElementById('history');
+        let currentValue = '0';
+        let previousValue = '';
+        let operation = '';
+        let memory = 0;
+        let newNumber = true;
+        let calculationHistory = [];
+        let historyVisible = false;
+        let angleMode = 'DEG'; // 'DEG' or 'RAD'
+
+        function setMode(mode) {
+            document.querySelectorAll('.mode-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const scientificButtons = document.getElementById('scientificButtons');
+            if (mode === 'scientific') {
+                scientificButtons.classList.add('active');
+            } else {
+                scientificButtons.classList.remove('active');
+                // Hide history when switching to basic mode
+                if (historyVisible) {
+                    toggleHistory();
+                }
+            }
+        }
+
+        function updateDisplay() {
+            display.textContent = currentValue;
+        }
+
+        function updateHistory() {
+            if (previousValue && operation) {
+                let displayOp = operation;
+                if (operation === '*') displayOp = '×';
+                if (operation === '/') displayOp = '÷';
+                if (operation === '**') displayOp = '^';
+                history.textContent = `${previousValue} ${displayOp}`;
+            } else {
+                history.textContent = '';
+            }
+        }
+
+        function addToHistory(calculation, result) {
+            calculationHistory.unshift({ calculation, result });
+            if (calculationHistory.length > 50) {
+                calculationHistory.pop();
+            }
+            if (historyVisible) {
+                updateHistoryPanel();
+            }
+        }
+
+        function updateHistoryPanel() {
+            const historyPanel = document.getElementById('historyPanel');
+            if (calculationHistory.length === 0) {
+                historyPanel.innerHTML = '<div style="text-align: center; padding: 20px; color: #95a5a6;">No calculations yet</div>';
+            } else {
+                historyPanel.innerHTML = `
+                    <div id="historyList">${calculationHistory
+                        .map(item => `<div class="history-item" onclick="useHistoryValue('${item.result}')">${item.calculation} = ${item.result}</div>`)
+                        .join('')}</div>
+                    <button class="clear-history" onclick="clearHistory()">Clear History</button>
+                `;
+            }
+        }
+
+        function toggleHistory() {
+            const panel = document.getElementById('historyPanel');
+            historyVisible = !historyVisible;
+            
+            if (historyVisible) {
+                panel.style.display = 'block';
+                updateHistoryPanel();
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Clear all calculation history?')) {
+                calculationHistory = [];
+                updateHistoryPanel();
+            }
+        }
+
+        function useHistoryValue(value) {
+            currentValue = value;
+            newNumber = true;
+            updateDisplay();
+        }
+
+        function addNumber(num) {
+            if (newNumber) {
+                currentValue = num;
+                newNumber = false;
+            } else {
+                if (currentValue.length < 15) {
+                    currentValue = currentValue === '0' ? num : currentValue + num;
+                }
+            }
+            updateDisplay();
+        }
+
+        function addDecimal() {
+            if (newNumber) {
+                currentValue = '0.';
+                newNumber = false;
+            } else if (!currentValue.includes('.')) {
+                currentValue += '.';
+            }
+            updateDisplay();
+        }
+
+        function addOperator(op) {
+            if (operation && !newNumber) {
+                calculate();
+            }
+            previousValue = currentValue;
+            operation = op;
+            newNumber = true;
+            updateHistory();
+        }
+
+        function calculate() {
+            if (!operation || newNumber) return;
+            
+            const prev = parseFloat(previousValue);
+            const current = parseFloat(currentValue);
+            let result;
+
+            switch(operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = current !== 0 ? prev / current : 'Error';
+                    break;
+                case '%':
+                    result = prev % current;
+                    break;
+                case '**':
+                    result = Math.pow(prev, current);
+                    break;
+            }
+
+            let displayOp = operation;
+            if (operation === '*') displayOp = '×';
+            if (operation === '/') displayOp = '÷';
+            if (operation === '**') displayOp = '^';
+            
+            const calculation = `${previousValue} ${displayOp} ${currentValue}`;
+            
+            if (result !== 'Error') {
+                currentValue = result.toString();
+                if (currentValue.length > 12) {
+                    currentValue = parseFloat(currentValue).toExponential(6);
+                }
+                addToHistory(calculation, currentValue);
+            } else {
+                currentValue = 'Error';
+            }
+            
+            operation = '';
+            previousValue = '';
+            newNumber = true;
+            updateDisplay();
+            updateHistory();
+        }
+
+        function clearAll() {
+            currentValue = '0';
+            previousValue = '';
+            operation = '';
+            newNumber = true;
+            updateDisplay();
+            updateHistory();
+        }
+
+        function backspace() {
+            if (newNumber || currentValue === 'Error') return;
+            currentValue = currentValue.length > 1 ? currentValue.slice(0, -1) : '0';
+            updateDisplay();
+        }
+
+        function toggleSign() {
+            if (currentValue !== '0' && currentValue !== 'Error') {
+                currentValue = (parseFloat(currentValue) * -1).toString();
+                updateDisplay();
+            }
+        }
+
+        function toggleDegRad() {
+            angleMode = angleMode === 'DEG' ? 'RAD' : 'DEG';
+            document.getElementById('angleMode').textContent = angleMode;
+        }
+
+        function scientificOp(op) {
+            const current = parseFloat(currentValue);
+            let result;
+            let calculation;
+
+            switch(op) {
+                case 'sin':
+                    if (angleMode === 'DEG') {
+                        result = Math.sin(current * Math.PI / 180);
+                        calculation = `sin(${current}°)`;
+                    } else {
+                        result = Math.sin(current);
+                        calculation = `sin(${current} rad)`;
+                    }
+                    break;
+                case 'cos':
+                    if (angleMode === 'DEG') {
+                        result = Math.cos(current * Math.PI / 180);
+                        calculation = `cos(${current}°)`;
+                    } else {
+                        result = Math.cos(current);
+                        calculation = `cos(${current} rad)`;
+                    }
+                    break;
+                case 'tan':
+                    if (angleMode === 'DEG') {
+                        result = Math.tan(current * Math.PI / 180);
+                        calculation = `tan(${current}°)`;
+                    } else {
+                        result = Math.tan(current);
+                        calculation = `tan(${current} rad)`;
+                    }
+                    break;
+                case 'asin':
+                    if (current >= -1 && current <= 1) {
+                        if (angleMode === 'DEG') {
+                            result = Math.asin(current) * 180 / Math.PI;
+                            calculation = `sin⁻¹(${current})`;
+                        } else {
+                            result = Math.asin(current);
+                            calculation = `sin⁻¹(${current})`;
+                        }
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'acos':
+                    if (current >= -1 && current <= 1) {
+                        if (angleMode === 'DEG') {
+                            result = Math.acos(current) * 180 / Math.PI;
+                            calculation = `cos⁻¹(${current})`;
+                        } else {
+                            result = Math.acos(current);
+                            calculation = `cos⁻¹(${current})`;
+                        }
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'atan':
+                    if (angleMode === 'DEG') {
+                        result = Math.atan(current) * 180 / Math.PI;
+                        calculation = `tan⁻¹(${current})`;
+                    } else {
+                        result = Math.atan(current);
+                        calculation = `tan⁻¹(${current})`;
+                    }
+                    break;
+                case 'sinh':
+                    result = Math.sinh(current);
+                    calculation = `sinh(${current})`;
+                    break;
+                case 'cosh':
+                    result = Math.cosh(current);
+                    calculation = `cosh(${current})`;
+                    break;
+                case 'tanh':
+                    result = Math.tanh(current);
+                    calculation = `tanh(${current})`;
+                    break;
+                case 'log':
+                    if (current > 0) {
+                        result = Math.log10(current);
+                        calculation = `log(${current})`;
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'ln':
+                    if (current > 0) {
+                        result = Math.log(current);
+                        calculation = `ln(${current})`;
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'sqrt':
+                    if (current >= 0) {
+                        result = Math.sqrt(current);
+                        calculation = `√(${current})`;
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'cbrt':
+                    result = Math.cbrt(current);
+                    calculation = `∛(${current})`;
+                    break;
+                case 'square':
+                    result = current * current;
+                    calculation = `${current}²`;
+                    break;
+                case 'cube':
+                    result = current * current * current;
+                    calculation = `${current}³`;
+                    break;
+                case 'abs':
+                    result = Math.abs(current);
+                    calculation = `|${current}|`;
+                    break;
+                case 'reciprocal':
+                    if (current !== 0) {
+                        result = 1 / current;
+                        calculation = `1/${current}`;
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'pow':
+                    previousValue = currentValue;
+                    operation = '**';
+                    newNumber = true;
+                    updateHistory();
+                    return;
+                case 'exp':
+                    result = Math.exp(current);
+                    calculation = `e^${current}`;
+                    break;
+                case 'factorial':
+                    if (current >= 0 && Number.isInteger(current)) {
+                        result = factorial(current);
+                        calculation = `${current}!`;
+                    } else {
+                        result = 'Error';
+                    }
+                    break;
+                case 'percent':
+                    result = current / 100;
+                    calculation = `${current}%`;
+                    break;
+            }
+
+            if (result !== 'Error') {
+                currentValue = result.toString();
+                if (currentValue.length > 12) {
+                    currentValue = parseFloat(currentValue).toExponential(6);
+                }
+                if (calculation) {
+                    addToHistory(calculation, currentValue);
+                }
+            } else {
+                currentValue = 'Error';
+            }
+            
+            newNumber = true;
+            updateDisplay();
+        }
+
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            if (n > 170) return Infinity;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function memoryOp(op) {
+            const current = parseFloat(currentValue);
+            
+            switch(op) {
+                case 'clear':
+                    memory = 0;
+                    break;
+                case 'recall':
+                    if (memory !== 0) {
+                        currentValue = memory.toString();
+                        newNumber = true;
+                        updateDisplay();
+                    }
+                    break;
+                case 'add':
+                    memory += current;
+                    break;
+                case 'subtract':
+                    memory -= current;
+                    break;
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key >= '0' && e.key <= '9') addNumber(e.key);
+            if (e.key === '.') addDecimal();
+            if (e.key === '+') addOperator('+');
+            if (e.key === '-') addOperator('-');
+            if (e.key === '*') addOperator('*');
+            if (e.key === '/') {
+                e.preventDefault();
+                addOperator('/');
+            }
+            if (e.key === 'Enter' || e.key === '=') {
+                e.preventDefault();
+                calculate();
+            }
+            if (e.key === 'Escape') clearAll();
+            if (e.key === 'Backspace') backspace();
+        });
+    </script>
+</body>
+</html>
