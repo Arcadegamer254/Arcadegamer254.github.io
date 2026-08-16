@@ -1,0 +1,1047 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arcadegamer254 · Technology Hobbyist — Learning in Public</title>
+<meta name="description" content="Personal workspace of arcadegamer254 — a self-taught technology hobbyist exploring Linux on Android, web experiments and OS dreams.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0c10'/%3E%3Crect x='14' y='14' width='22' height='22' fill='%23c8f542'/%3E%3Crect x='14' y='40' width='36' height='6' fill='%23c8f542' opacity='.55'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.1.1/latin-500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.1.1/latin-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.1/latin-400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.1/latin-500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.1/latin-600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.1.1/latin-400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5.1.1/latin-500.css">
+<style>
+:root{
+  --ink:#0a0c10; --panel:#10141c; --panel2:#161b26;
+  --line:rgba(226,236,255,.09); --line2:rgba(226,236,255,.16);
+  --text:#e9edf3; --muted:#98a2b3;
+  --acid:#c8f542; --acid-dim:rgba(200,245,66,.14); --amber:#f5b84b;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'IBM Plex Sans',system-ui,sans-serif;
+  --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden}
+body.menu-open{overflow:hidden}
+::selection{background:var(--acid);color:var(--ink)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:#2a3242;border-radius:6px;border:2px solid var(--ink)}
+::-webkit-scrollbar-thumb:hover{background:var(--acid)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.mono{font-family:var(--mono)}
+.container{width:min(1180px,92vw);margin:0 auto}
+section{padding:clamp(84px,11vw,140px) 0;position:relative;scroll-margin-top:84px}
+
+.noise{position:fixed;inset:0;z-index:120;pointer-events:none;opacity:.055;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#scrollProgress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--acid);z-index:200;box-shadow:0 0 12px rgba(200,245,66,.7)}
+
+/* ---------- nav (kept above menu so the ✕ stays clickable) ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:160;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+.nav.scrolled,body.menu-open .nav{background:rgba(10,12,16,.95);backdrop-filter:blur(12px)}
+.nav.scrolled{border-color:var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.brand{font-weight:500;font-size:15px;letter-spacing:.02em;display:flex;align-items:center;gap:2px}
+.brand span{color:var(--acid)}
+.brand-dot{width:7px;height:7px;background:var(--acid);display:inline-block;margin-left:8px;animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.links{display:flex;gap:26px}
+.links a{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);position:relative;padding:4px 0;transition:color .25s}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--acid);transition:width .3s}
+.links a:hover,.links a.active{color:var(--text)}
+.links a:hover::after,.links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:14px}
+.status-pill{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 12px;display:inline-flex;align-items:center;gap:8px}
+.status-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--acid);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(200,245,66,.5)}70%{box-shadow:0 0 0 8px rgba(200,245,66,0)}100%{box-shadow:0 0 0 0 rgba(200,245,66,0)}}
+.burger{display:none;background:rgba(13,17,23,.7);border:1px solid var(--line2);border-radius:8px;width:42px;height:38px;cursor:pointer;position:relative;flex:none}
+.burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--text);transition:transform .3s,top .3s}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:22px}
+body.menu-open .burger span:nth-child(1){top:18px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){top:18px;transform:rotate(-45deg)}
+
+/* ---------- mobile menu (visibility-gated: can never block the page when closed) ---------- */
+.mmenu{position:fixed;inset:0;background:rgba(10,12,16,.98);z-index:150;
+ display:flex;flex-direction:column;justify-content:center;padding:90px 8vw 60px;gap:2px;
+ visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-24px);
+ transition:opacity .35s ease,transform .45s cubic-bezier(.7,0,.2,1),visibility 0s linear .45s}
+body.menu-open .mmenu{visibility:visible;opacity:1;pointer-events:auto;transform:none;
+ transition:opacity .3s ease,transform .45s cubic-bezier(.7,0,.2,1)}
+.mmenu a{font-family:var(--disp);font-weight:700;font-size:clamp(26px,6.5vw,42px);text-transform:uppercase;letter-spacing:.02em;color:var(--text);padding:10px 4px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);transition:color .25s,padding-left .3s}
+.mmenu a i{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--acid);letter-spacing:.2em}
+.mmenu a:hover,.mmenu a:active{color:var(--acid);padding-left:14px}
+.mmenu .mm-note{font-family:var(--mono);color:var(--muted);font-size:11.5px;margin-top:26px;letter-spacing:.14em}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;align-items:center;padding:130px 0 70px;overflow:hidden}
+.hero-grid-bg{position:absolute;inset:0;
+ background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+ background-size:56px 56px;
+ -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 30%,transparent 75%);
+ mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 30%,transparent 75%)}
+.hero-glow{position:absolute;width:640px;height:640px;left:-160px;top:8%;border-radius:50%;
+ background:radial-gradient(circle,rgba(200,245,66,.13),transparent 65%);filter:blur(10px);pointer-events:none;transition:transform .4s ease-out}
+.hero-inner{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(30px,5vw,70px);align-items:center;position:relative}
+.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--acid);text-transform:lowercase;margin-bottom:22px}
+.hero-name{font-family:var(--disp);font-weight:700;font-size:clamp(42px,8.2vw,104px);line-height:.98;letter-spacing:-.015em;text-transform:uppercase;word-break:break-word}
+.hero-name em{font-style:normal;color:var(--acid)}
+.hero-tag{margin:26px 0 30px;max-width:56ch;color:var(--muted);font-size:clamp(15px,1.6vw,18px)}
+.hero-tag em{color:var(--text);font-style:normal;border-bottom:1px dashed var(--acid)}
+.term{background:#0d1117;border:1px solid var(--line2);border-radius:var(--r);overflow:hidden;max-width:640px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.term-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#151b26;border-bottom:1px solid var(--line)}
+.term-bar span{width:11px;height:11px;border-radius:50%;background:#2a3242}
+.term-bar span:first-child{background:#ff5f56}.term-bar span:nth-child(2){background:#ffbd2e}.term-bar span:nth-child(3){background:#27c93f}
+.term-bar i{font-family:var(--mono);font-style:normal;font-size:11.5px;color:var(--muted);margin-left:8px;letter-spacing:.06em}
+.term-body{padding:16px 18px 20px;font-family:var(--mono);font-size:13px;line-height:1.9;min-height:172px}
+.t-cmd{color:var(--text)}
+.t-out{color:var(--acid);opacity:.9}
+.caret{display:inline-block;width:8px;height:14px;background:var(--acid);vertical-align:-2px;animation:blink 1s steps(2) infinite}
+.hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:14px 22px;border:1px solid var(--line2);border-radius:8px;color:var(--text);display:inline-flex;align-items:center;gap:8px;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s;cursor:pointer;background:transparent}
+.btn:hover{transform:translateY(-3px);border-color:var(--acid);box-shadow:0 10px 30px rgba(200,245,66,.12)}
+.btn-solid{background:var(--acid);color:var(--ink);border-color:var(--acid);font-weight:500}
+.btn-solid:hover{background:#daff5e}
+
+.id-card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line2);border-radius:16px;padding:26px;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.id-card::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.014) 3px 4px);pointer-events:none}
+.id-top{display:flex;gap:16px;align-items:center}
+.avatar-wrap{width:64px;height:64px;border-radius:14px;overflow:hidden;border:1px solid var(--line2);flex:none;position:relative;background:#0d1117}
+.avatar-wrap img{width:100%;height:100%;object-fit:cover}
+.avatar-fallback{display:none;position:absolute;inset:0;place-items:center;font-family:var(--disp);font-weight:700;color:var(--acid);font-size:22px}
+.avatar-wrap.noimg .avatar-fallback{display:grid}
+.id-handle{font-family:var(--disp);font-weight:700;font-size:19px}
+.id-role{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+.id-status{margin:18px 0;padding:12px 14px;border:1px dashed var(--line2);border-radius:10px;font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;gap:10px;align-items:center}
+.id-status b{color:var(--acid);font-weight:500}
+.id-status .dot{width:8px;height:8px;border-radius:50%;background:var(--acid);animation:pulse 2s infinite;flex:none}
+.id-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.id-stats div{background:#0d1117;border:1px solid var(--line);border-radius:10px;padding:12px 4px}
+.id-stats b{display:block;font-family:var(--disp);font-size:20px;color:var(--text)}
+.id-stats span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.id-langs{margin-top:16px}
+.id-langs .row{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px}
+.id-langs .row i{width:74px;flex:none;font-style:normal}
+.id-langs .track{flex:1;height:4px;background:#1c2330;border-radius:4px;overflow:hidden}
+.id-langs .track b{display:block;height:100%;background:var(--acid);width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.id-live{margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);display:flex;align-items:center;gap:8px;text-transform:uppercase}
+#liveDot{width:7px;height:7px;border-radius:50%;background:#3a4356;flex:none;transition:background .3s}
+#liveDot.ok{background:var(--acid);box-shadow:0 0 10px rgba(200,245,66,.8)}
+
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:14px 0;background:#0c0f15}
+.ticker-track{display:flex;width:max-content;animation:marquee 34s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track span{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding:0 18px;white-space:nowrap}
+.ticker-track span b{color:var(--acid);font-weight:400}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.s-head{margin-bottom:clamp(40px,6vw,70px)}
+.s-index{font-size:12px;color:var(--acid);letter-spacing:.2em;margin-bottom:14px}
+.s-index::after{content:" ———";color:var(--line2)}
+.s-title{font-family:var(--disp);font-weight:700;font-size:clamp(32px,5.4vw,60px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05}
+.s-sub{color:var(--muted);margin-top:14px;max-width:60ch}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,5vw,72px);align-items:start}
+.about-sticky{position:sticky;top:100px}
+.about-fig{border:1px solid var(--line2);border-radius:16px;overflow:hidden;position:relative}
+.about-fig img{width:100%;height:auto;transition:transform 6s ease}
+.about-fig:hover img{transform:scale(1.06)}
+.about-fig figcaption{font-family:var(--mono);font-size:11px;color:var(--muted);padding:12px 16px;border-top:1px solid var(--line);letter-spacing:.08em}
+.facts{margin-top:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.facts div{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;font-family:var(--mono);font-size:12px;border-bottom:1px solid var(--line)}
+.facts div:last-child{border-bottom:0}
+.facts span{color:var(--muted)}
+.facts b{color:var(--text);font-weight:400;text-align:right}
+.facts b i{color:var(--acid);font-style:normal}
+.about-copy p{color:var(--muted);margin-bottom:20px;font-size:16.5px}
+.about-copy p strong{color:var(--text);font-weight:600}
+.about-copy p .hl{color:var(--acid)}
+.principles{margin-top:34px;display:grid;gap:0;border-top:1px solid var(--line)}
+.principles li{list-style:none;display:flex;gap:16px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line);transition:padding-left .3s,background .3s}
+.principles li:hover{padding-left:16px;background:rgba(200,245,66,.04)}
+.principles .n{font-family:var(--mono);font-size:11px;color:var(--acid)}
+.principles b{font-family:var(--disp);font-weight:500;font-size:16px;display:block}
+.principles small{color:var(--muted)}
+
+.stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.stack-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;transition:transform .3s,border-color .3s}
+.stack-card:hover{transform:translateY(-5px);border-color:var(--line2)}
+.stack-card h3{font-family:var(--disp);font-size:19px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.stack-card h3 i{font-family:var(--mono);font-style:normal;font-size:10.5px;color:var(--acid);letter-spacing:.14em}
+.stack-card p.note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:22px;letter-spacing:.06em}
+.bar{margin-bottom:18px}
+.bar:last-child{margin-bottom:0}
+.bar .lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;margin-bottom:8px;color:var(--text)}
+.bar .lab span:last-child{color:var(--muted)}
+.bar .track{height:6px;background:#1a2130;border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{display:block;height:100%;width:0;background:linear-gradient(90deg,#7ea329,var(--acid));border-radius:6px;transition:width 1.5s cubic-bezier(.2,.7,.2,1)}
+.tag-learning{font-family:var(--mono);font-size:9.5px;color:var(--amber);border:1px dashed rgba(245,184,75,.5);border-radius:999px;padding:2px 8px;letter-spacing:.1em;margin-left:8px;vertical-align:2px}
+
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:10px 16px;border:1px solid var(--line2);border-radius:999px;color:var(--muted);background:transparent;cursor:pointer;transition:all .25s}
+.chip:hover{color:var(--text);border-color:var(--acid)}
+.chip.active{background:var(--acid);color:var(--ink);border-color:var(--acid);font-weight:500}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.p-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:opacity .26s,transform .35s,border-color .3s,box-shadow .3s}
+.p-card:hover{transform:translateY(-6px);border-color:rgba(200,245,66,.45);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.p-card.fade{opacity:0;transform:scale(.95)}
+.p-card.gone{display:none}
+.p-card.featured{grid-column:span 2}
+.p-link{display:flex;flex-direction:column;height:100%}
+.p-cover{position:relative;aspect-ratio:16/8.4;overflow:hidden;background:#0d1117}
+.p-card.featured .p-cover{aspect-ratio:16/6.4}
+.p-cover img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1);filter:saturate(.92)}
+.p-card:hover .p-cover img{transform:scale(1.07)}
+.p-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,12,16,.85))}
+.p-type{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;padding:5px 10px;border-radius:6px;text-transform:uppercase}
+.p-type.orig{background:var(--acid);color:var(--ink);font-weight:500}
+.p-type.fork{background:rgba(10,12,16,.8);color:var(--amber);border:1px solid rgba(245,184,75,.5)}
+.p-cover.typo{display:grid;place-items:center;background:repeating-linear-gradient(-45deg,#0d1117 0 14px,#10161f 14px 15px)}
+.p-cover.typo b{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4vw,52px);letter-spacing:.06em;color:transparent;-webkit-text-stroke:1px rgba(200,245,66,.55);text-transform:uppercase}
+.p-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.p-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.lang-dot{width:9px;height:9px;border-radius:50%;background:var(--lc,#888);flex:none;box-shadow:0 0 8px var(--lc)}
+.p-body h3{font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:.01em;word-break:break-all}
+.p-body p{color:var(--muted);font-size:13.5px;flex:1}
+.p-arrow{font-family:var(--mono);font-size:11px;color:var(--acid);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.p-arrow::after{content:"→";transition:transform .3s}
+.p-card:hover .p-arrow::after{transform:translateX(6px)}
+.p-foot{margin-top:34px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.p-foot a{color:var(--acid);border-bottom:1px dashed var(--acid)}
+
+.timeline{position:relative;padding-left:44px;max-width:820px}
+.tl-line{position:absolute;left:12px;top:6px;bottom:6px;width:1px;background:var(--line2)}
+#tlFill{position:absolute;left:0;top:0;width:100%;height:0;background:var(--acid);box-shadow:0 0 12px rgba(200,245,66,.6)}
+.tl-item{position:relative;padding-bottom:46px}
+.tl-item:last-child{padding-bottom:0}
+.tl-node{position:absolute;left:-38px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--ink);border:2px solid var(--acid);z-index:2;transition:background .4s,box-shadow .4s}
+.tl-item.in .tl-node{background:var(--acid);box-shadow:0 0 16px rgba(200,245,66,.6)}
+.tl-date{font-size:11px;color:var(--acid);letter-spacing:.2em;margin-bottom:8px}
+.tl-item h3{font-family:var(--disp);font-weight:700;font-size:clamp(19px,2.4vw,25px);margin-bottom:8px;text-transform:uppercase}
+.tl-item p{color:var(--muted);max-width:62ch}
+.tl-item .tags{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.tl-item .tags i{font-family:var(--mono);font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;text-transform:uppercase}
+
+.postcards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.pc{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:24px 20px;transform:rotate(var(--r,0deg));transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.pc:hover{transform:rotate(0deg) translateY(-8px);border-color:rgba(200,245,66,.4);box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:2}
+.pc .ic{font-size:26px;margin-bottom:14px;display:block}
+.pc h3{font-family:var(--disp);font-weight:700;font-size:16.5px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.02em}
+.pc p{font-size:12.5px;color:var(--muted)}
+.pc .stamp{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:9px;color:var(--line2);letter-spacing:.14em}
+
+.now-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.now-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.now-card h3{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--acid);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.now-card h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.now-card h4{font-family:var(--disp);font-size:20px;font-weight:700;margin-bottom:8px}
+.now-card p{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+.now-card ul{list-style:none}
+.now-card ul li{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline}
+.now-card ul li:last-child{border:0}
+.now-card ul li::before{content:"▸";color:var(--acid)}
+.mini-track{height:6px;background:#1a2130;border-radius:6px;overflow:hidden;margin-top:6px}
+.mini-fill{height:100%;width:0;background:var(--acid);border-radius:6px;transition:width 1.8s cubic-bezier(.2,.7,.2,1)}
+.pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+.contact{border-top:1px solid var(--line);background:radial-gradient(600px 300px at 20% 100%,rgba(200,245,66,.07),transparent)}
+.contact h2{font-family:var(--disp);font-weight:700;font-size:clamp(38px,7vw,84px);text-transform:uppercase;line-height:1.02;letter-spacing:-.01em}
+.contact h2 em{font-style:normal;color:var(--acid)}
+.contact p{color:var(--muted);max-width:58ch;margin:24px 0 34px}
+.contact .hero-cta{margin-top:0}
+
+footer{border-top:1px solid var(--line);padding:30px 0}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+.foot a{color:var(--text)}
+.foot a:hover{color:var(--acid)}
+#toTop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:12px;border:1px solid var(--line2);background:rgba(13,17,23,.9);color:var(--acid);display:grid;place-items:center;font-size:18px;z-index:80;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s;cursor:pointer}
+#toTop.show{opacity:1;transform:none}
+#toTop:hover{border-color:var(--acid)}
+
+#feed{display:flex;flex-direction:column;gap:0;margin-top:6px}
+.feed-item{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px dashed var(--line);font-family:var(--mono);font-size:12px;transition:padding-left .25s}
+.feed-item:hover{padding-left:10px}
+.feed-item .f-dot{width:6px;height:6px;border-radius:50%;background:var(--acid);flex:none}
+.feed-item .f-name{color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feed-item .f-date{color:var(--muted);font-size:10.5px}
+
+@media(max-width:1020px){
+ .hero-inner{grid-template-columns:1fr}
+ .id-card{max-width:560px}
+ .p-grid{grid-template-columns:repeat(2,1fr)}
+ .p-card.featured{grid-column:span 2}
+ .postcards{grid-template-columns:repeat(2,1fr)}
+ .now-grid{grid-template-columns:1fr}
+ .stack-grid{grid-template-columns:1fr}
+ .about-grid{grid-template-columns:1fr}
+ .about-sticky{position:static}
+}
+@media(max-width:760px){
+ .links{display:none}
+ .burger{display:block}
+ .status-pill{display:none}
+ .p-grid{grid-template-columns:1fr}
+ .p-card.featured{grid-column:span 1}
+ .postcards{grid-template-columns:1fr}
+ .id-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion: reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+ .reveal{opacity:1;transform:none}
+}
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}.bar-fill,.id-langs .track b,.mini-fill{width:70%!important}</style></noscript>
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+<div id="scrollProgress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner container">
+    <a class="brand mono" href="#top">arcadegamer<span>254</span><i class="brand-dot"></i></a>
+    <nav class="links" id="links">
+      <a href="#about">about</a><a href="#stack">stack</a><a href="#projects">projects</a>
+      <a href="#journey">journey</a><a href="#interests">interests</a><a href="#contact">contact</a>
+    </nav>
+    <div class="nav-right">
+      <span class="mono status-pill"><i class="dot"></i>open to learn</span>
+      <button class="burger" id="burger" aria-label="Toggle menu" aria-controls="mmenu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <a href="#about"><i>01</i>about</a>
+  <a href="#stack"><i>02</i>stack</a>
+  <a href="#projects"><i>03</i>projects</a>
+  <a href="#journey"><i>04</i>journey</a>
+  <a href="#interests"><i>05</i>interests</a>
+  <a href="#contact"><i>06</i>contact</a>
+  <p class="mm-note">tap a section to jump · tap ✕ or press esc to close</p>
+</div>
+
+<main>
+<section class="hero" id="top">
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-left">
+      <p class="mono eyebrow">~/home/arcadegamer254 · personal workspace · est. jun 2024</p>
+      <h1 class="hero-name" id="heroName" data-text="ARCADEGAMER254">ARCADEGAMER<em>254</em></h1>
+      <p class="hero-tag">Technology hobbyist. Tinkerer of phones, terminals and half-finished operating systems.
+        <em>Permanently under construction — on purpose.</em></p>
+      <div class="term" aria-label="terminal introduction">
+        <div class="term-bar"><span></span><span></span><span></span><i>arcade@workspace: ~</i></div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="#projects" data-scroll>Browse projects ↓</a>
+        <a class="btn" href="https://github.com/Arcadegamer254" target="_blank" rel="noopener">github ↗</a>
+      </div>
+    </div>
+
+    <aside class="id-card reveal">
+      <div class="id-top">
+        <div class="avatar-wrap">
+          <img src="https://avatars.githubusercontent.com/u/172249225?v=4" alt="Arcadegamer254 GitHub avatar"
+               onerror="this.style.display='none';this.parentNode.classList.add('noimg')">
+          <span class="avatar-fallback">A·2</span>
+        </div>
+        <div>
+          <div class="id-handle">Arcadegamer254</div>
+          <div class="id-role">hobbyist · learner · tinkerer</div>
+        </div>
+      </div>
+      <div class="id-status"><i class="dot"></i>currently building: <b>Aurora.os</b></div>
+      <div class="id-stats">
+        <div><b id="live-repos">15</b><span>repos</span></div>
+        <div><b id="live-followers">3</b><span>followers</span></div>
+        <div><b id="live-following">3</b><span>following</span></div>
+        <div><b>2+</b><span>yrs curious</span></div>
+      </div>
+      <div class="id-langs">
+        <div class="row"><i>shell</i><span class="track"><b data-w="66"></b></span></div>
+        <div class="row"><i>html</i><span class="track"><b data-w="78"></b></span></div>
+        <div class="row"><i>typescript</i><span class="track"><b data-w="48"></b></span></div>
+        <div class="row"><i>c# / unity</i><span class="track"><b data-w="26"></b></span></div>
+      </div>
+      <div class="id-live"><i id="liveDot"></i><span id="liveLabel">connecting to github…</span></div>
+      <div id="feed"></div>
+    </aside>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>linux on android <b>◆</b></span><span>termux &amp; proot <b>◆</b></span><span>typescript <b>◆</b></span>
+    <span>react native <b>◆</b></span><span>shell scripting <b>◆</b></span><span>github pages <b>◆</b></span>
+    <span>unity / c# (curious) <b>◆</b></span><span>apk archaeology <b>◆</b></span><span>open source <b>◆</b></span>
+    <span>learn in public <b>◆</b></span><span>small ships &gt; big plans <b>◆</b></span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">01</p>
+      <h2 class="s-title" data-scramble data-text="whoami">whoami</h2>
+      <p class="s-sub">The short version of a curious human who likes taking things apart.</p>
+    </header>
+    <div class="about-grid">
+      <div class="about-sticky reveal">
+        <figure class="about-fig">
+          <img src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/1de9b8fbd-b922-4a92-9d1f-1409fba76c89.png" alt="A hobbyist workspace: phone running a terminal next to a laptop with code" loading="lazy">
+          <figcaption>$ the lab — one phone, one terminal, endless tabs</figcaption>
+        </figure>
+        <div class="facts">
+          <div><span>alias</span><b>arcadegamer254</b></div>
+          <div><span>class</span><b>hobbyist · self-taught</b></div>
+          <div><span>joined github</span><b>10 jun 2024</b></div>
+          <div><span>main quest</span><b>linux in my pocket</b></div>
+          <div><span>status</span><b><i>● learning…</i></b></div>
+        </div>
+      </div>
+      <div class="about-copy">
+        <p class="reveal">Hi — I'm <strong>arcadegamer254</strong>, a self-taught <span class="hl">technology hobbyist</span>. I'm not a professional (yet), and that's exactly the point: everything on this page was made by a curious person figuring things out one commit at a time, in public, mistakes included.</p>
+        <p class="reveal" style="--d:.08s">My favourite playground is the space where <strong>Android meets Linux</strong>. I spent months chasing a real desktop inside a phone — Termux, proot, X11, modded Ubuntu builds — because the idea of a whole computer in your pocket genuinely feels like magic worth understanding.</p>
+        <p class="reveal" style="--d:.14s">I learn the honest way: <strong>fork things I don't fully understand</strong>, read the code, break them, fix them, and occasionally graduate from studying other people's projects to starting my own — like my React-Native Linux-OS experiment and the (very in-progress) <span class="hl">Aurora.os</span>.</p>
+        <p class="reveal" style="--d:.2s">If it has a terminal, a browser or a bootloader, I've probably tried to poke it. This site is my lab notebook.</p>
+        <ul class="principles reveal" style="--d:.1s">
+          <li><span class="n">P.01</span><div><b>Learn by building.</b><small>Reading teaches, shipping teaches twice.</small></div></li>
+          <li><span class="n">P.02</span><div><b>Fork, study, remix — and credit.</b><small>Open source is my classroom; I say thank you in commits.</small></div></li>
+          <li><span class="n">P.03</span><div><b>Small projects &gt; big plans.</b><small>A shipped calculator beats an imagined operating system. (I'm building both.)</small></div></li>
+          <li><span class="n">P.04</span><div><b>Stay a beginner on purpose.</b><small>Beginners ask the best questions.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack" style="background:#0c0f15;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">02</p>
+      <h2 class="s-title" data-scramble data-text="the toolbox">the toolbox</h2>
+      <p class="s-sub">Honest, self-assessed skill meters. All of them are still loading — that's the fun part.</p>
+    </header>
+    <div class="stack-grid">
+      <div class="stack-card reveal">
+        <h3>web <i>// hand-made</i></h3>
+        <p class="note">from view-source to my own pages on github pages</p>
+        <div class="bar"><div class="lab"><span>HTML &amp; CSS</span><span>78%</span></div><div class="track"><span class="bar-fill" data-w="78"></span></div></div>
+        <div class="bar"><div class="lab"><span>JavaScript</span><span>62%</span></div><div class="track"><span class="bar-fill" data-w="62"></span></div></div>
+        <div class="bar"><div class="lab"><span>GitHub Pages / deploys</span><span>70%</span></div><div class="track"><span class="bar-fill" data-w="70"></span></div></div>
+      </div>
+      <div class="stack-card reveal" style="--d:.08s">
+        <h3>systems <i>// pocket linux</i></h3>
+        <p class="note">where most of my weekends disappear</p>
+        <div class="bar"><div class="lab"><span>Termux &amp; proot</span><span>72%</span></div><div class="track"><span class="bar-fill" data-w="72"></span></div></div>
+        <div class="bar"><div class="lab"><span>Shell / Bash scripting</span><span>66%</span></div><div class="track"><span class="bar-fill" data-w="66"></span></div></div>
+        <div class="bar"><div class="lab"><span>Linux fundamentals</span><span>58%</span></div><div class="track"><span class="bar-fill" data-w="58"></span></div></div>
+      </div>
+      <div class="stack-card reveal" style="--d:.12s">
+        <h3>cross-platform <i>// in training</i></h3>
+        <p class="note">the current semester of my self-made school</p>
+        <div class="bar"><div class="lab"><span>Git &amp; GitHub<span class="tag-learning">daily</span></span><span>74%</span></div><div class="track"><span class="bar-fill" data-w="74"></span></div></div>
+        <div class="bar"><div class="lab"><span>TypeScript<span class="tag-learning">learning</span></span><span>48%</span></div><div class="track"><span class="bar-fill" data-w="48"></span></div></div>
+        <div class="bar"><div class="lab"><span>React Native<span class="tag-learning">learning</span></span><span>40%</span></div><div class="track"><span class="bar-fill" data-w="40"></span></div></div>
+      </div>
+      <div class="stack-card reveal" style="--d:.16s">
+        <h3>exploring <i>// curiosity tabs</i></h3>
+        <p class="note">things I poke at just to see how they work</p>
+        <div class="bar"><div class="lab"><span>APK reverse engineering</span><span>35%</span></div><div class="track"><span class="bar-fill" data-w="35"></span></div></div>
+        <div class="bar"><div class="lab"><span>Unity / C#</span><span>26%</span></div><div class="track"><span class="bar-fill" data-w="26"></span></div></div>
+        <div class="bar"><div class="lab"><span>Java (reading Apktool)</span><span>22%</span></div><div class="track"><span class="bar-fill" data-w="22"></span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">03</p>
+      <h2 class="s-title" data-scramble data-text="the workshop">the workshop</h2>
+      <p class="s-sub">Everything I've made, forked, studied and shipped since June 2024 — sorted by obsession. Originals and forks side by side, because learning out loud is nothing to hide.</p>
+    </header>
+
+    <div class="chips reveal" role="group" aria-label="Filter projects">
+      <button class="chip active" data-filter="all">all</button>
+      <button class="chip" data-filter="os">os lab</button>
+      <button class="chip" data-filter="android">linux-on-android</button>
+      <button class="chip" data-filter="web">web</button>
+      <button class="chip" data-filter="games">games</button>
+      <button class="chip" data-filter="tools">tools &amp; study</button>
+    </div>
+
+    <div class="p-grid" id="pgrid">
+      <article class="p-card featured reveal" data-cat="os">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Arcadegamer254Os" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/186099491-e981-4746-a381-9fbfc490d28e.png" alt="Abstract OS grid wallpaper"><span class="p-type orig">original</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#3178c6"></span>typescript · 2026 · ★ 1</div>
+            <h3>Arcadegamer254Os</h3>
+            <p>A Linux-flavoured OS concept built with React Native — my most ambitious experiment yet. Part operating-system daydream, part TypeScript bootcamp.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="os" style="--d:.06s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Aurora.os-" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>Aurora</b><span class="p-type orig">original · wip</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#3178c6"></span>typescript · 2026</div>
+            <h3>Aurora.os</h3>
+            <p>My personal operating system, currently in the dreaming-and-prototyping stage. Boot screen energy first, kernel panic later.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="android">
+        <a class="p-link" href="https://github.com/Arcadegamer254/modded-ubuntu" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/1bbede3de-39ca-40a2-990b-b6971f69dc63.png" alt="Smartphone displaying a full Linux desktop"><span class="p-type fork">fork · studied</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#89e051"></span>shell · 2024 · ★ 1</div>
+            <h3>modded-ubuntu</h3>
+            <p>Forked to study how a full Ubuntu GUI runs on Termux — and how to squeeze "much features" out of a phone.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="android" style="--d:.06s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/termux-desktop" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>X11</b><span class="p-type fork">fork · studied</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#89e051"></span>shell · 2025</div>
+            <h3>termux-desktop</h3>
+            <p>A full Linux desktop environment on Android via Termux + X11, with hardware acceleration. The rabbit hole that ate my weekends.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="android" style="--d:.12s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/dextop" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>dextop</b><span class="p-type fork">fork · studied</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#89e051"></span>shell · 2024</div>
+            <h3>dextop</h3>
+            <p>Transforming an Android device into a Linux-based workstation in minutes. I read every script like a recipe book.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="android" style="--d:.18s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Ubuntu-modded-os-proot" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>proot</b><span class="p-type orig">original</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#89e051"></span>shell · 2024</div>
+            <h3>Ubuntu-modded-os-proot</h3>
+            <p>My own experiment running a modded Ubuntu through proot on Android — no root, no fear, plenty of trial and error.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="web">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Arcadegamer254.github.io" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/1d3ff6e0c-9a83-4a33-915d-6bfdb0239c55.png" alt="Minimal dark calculator interface"><span class="p-type orig">original · live</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#e34c26"></span>html · 2026 · apache-2.0</div>
+            <h3>Arcadegamer254.github.io</h3>
+            <p>My first GitHub Pages deploy: a simple web-based calculator. Proof that "hello world" can grow up.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="web" style="--d:.06s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/julishalibrary.github.io" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>library</b><span class="p-type fork">fork · collab</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#f1e05a"></span>javascript · 2026 · mit</div>
+            <h3>julishalibrary.github.io</h3>
+            <p>Forked to help with the Julisha Library web project — my first taste of working on someone else's codebase.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="web" style="--d:.12s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Arcade_movies" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/12c35ff9d-9172-415b-b615-c0257e02bc2d.png" alt="Film reel in warm light"><span class="p-type orig">original</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#e34c26"></span>html · 2024</div>
+            <h3>Arcade_movies</h3>
+            <p>An early HTML experiment — a tiny home for movie pages and watchlists, built when I barely knew a div from a span.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="web" style="--d:.18s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Movieflix-1.00" target="_blank" rel="noopener">
+          <div class="p-cover typo"><b>flix</b><span class="p-type orig">original</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#98a2b3"></span>project · 2024</div>
+            <h3>Movieflix</h3>
+            <p>One of my very first projects (June 2024): a movie-streaming UI concept. Rough, proud, kept as a milestone.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="games">
+        <a class="p-link" href="https://github.com/Arcadegamer254/3d-car-racing-game-unity" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/19c3d8de3-c81d-43a4-88ff-ff88dce2f602.png" alt="3D race car on a night track"><span class="p-type fork">fork · studied</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#178600"></span>c# · unity · 2024 · ★ 1</div>
+            <h3>3d-car-racing-game-unity</h3>
+            <p>Forked a Unity 3D car racing game to read the code and learn how games are actually built — physics, input, loops.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="p-card reveal" data-cat="tools" style="--d:.06s">
+        <a class="p-link" href="https://github.com/Arcadegamer254/Apktool" target="_blank" rel="noopener">
+          <div class="p-cover"><img loading="lazy" src="https://image.qwenlm.ai/public_source/baf32e80-4963-4f46-9d00-7a464a1d2107/1eed8f226-dc23-4286-aaf9-9e74b25be08a.png" alt="Blueprint schematic of an android head"><span class="p-type fork">fork · studied</span></div>
+          <div class="p-body">
+            <div class="p-meta"><span class="lang-dot" style="--lc:#b07219"></span>java · 2024 · apache-2.0</div>
+            <h3>Apktool</h3>
+            <p>Forked the famous tool for reverse-engineering Android APK files — to peek under the hood of the apps in my pocket.</p>
+            <span class="p-arrow">open repo</span>
+          </div>
+        </a>
+      </article>
+    </div>
+
+    <div class="p-foot reveal">
+      <span id="pcount">12 highlights shown · 15 public repositories in total</span>
+      <a href="https://github.com/Arcadegamer254?tab=repositories" target="_blank" rel="noopener">see the full archive on github ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="journey" style="background:#0c0f15;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">04</p>
+      <h2 class="s-title" data-scramble data-text="commit history">commit history</h2>
+      <p class="s-sub">A hobbyist's timeline, read straight from the repository dates.</p>
+    </header>
+    <div class="timeline" id="timeline">
+      <div class="tl-line"><i id="tlFill"></i></div>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">JUN 2024</p><h3>git init me</h3>
+        <p>Account created on June 10. First experiments land within days: Movieflix, a forked Unity 3D car racer, and a deep-dive fork of Apktool.</p>
+        <div class="tags"><i>first commits</i><i>unity</i><i>apktool</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">AUG 2024</p><h3>first hand-built html</h3>
+        <p>Arcade_movies — my own little movie corner on the web. Tags, lists, and the joy of a page that is entirely mine.</p>
+        <div class="tags"><i>html</i><i>movies</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">DEC 2024</p><h3>the linux-on-android rabbit hole</h3>
+        <p>Ubuntu-modded-os-proot, dextop, modded-ubuntu: three projects in one month. The mission — a real desktop in a pocket, no root required.</p>
+        <div class="tags"><i>proot</i><i>ubuntu</i><i>termux</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">APR 2025</p><h3>a desktop in my pocket</h3>
+        <p>Working through termux-desktop: X11 sessions, hardware acceleration, and the strange pride of a Linux taskbar on a phone screen.</p>
+        <div class="tags"><i>x11</i><i>shell</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">JAN 2026</p><h3>first site goes live</h3>
+        <p>Arcadegamer254.github.io ships — a simple web calculator on GitHub Pages. "Hello world", graduated.</p>
+        <div class="tags"><i>github pages</i><i>live</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">FEB 2026</p><h3>touching someone else's code</h3>
+        <p>Forked the Julisha Library website — first experience contributing to another project's codebase instead of only my own sandbox.</p>
+        <div class="tags"><i>collab</i><i>javascript</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">APR 2026</p><h3>building my own os(es)</h3>
+        <p>Started Aurora.os and Arcadegamer254Os — a React Native Linux-OS experiment in TypeScript. Ambitious? Yes. That's the point.</p>
+        <div class="tags"><i>typescript</i><i>react native</i><i>os dreams</i></div>
+      </article>
+      <article class="tl-item reveal"><div class="tl-node"></div>
+        <p class="mono tl-date">AUG 2026</p><h3>you are here</h3>
+        <p>This portfolio goes live. Still a hobbyist, still learning — now with a homepage for the journey.</p>
+        <div class="tags"><i>portfolio</i><i>status: curious</i></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="interests">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">05</p>
+      <h2 class="s-title" data-scramble data-text="off the main branch">off the main branch</h2>
+      <p class="s-sub">The things I gravitate to when nobody is assigning homework.</p>
+    </header>
+    <div class="postcards">
+      <div class="pc reveal" style="--r:-2deg"><span class="stamp">INT.01</span><span class="ic">📱</span><h3>Linux in your pocket</h3><p>Termux, proot, X11 — making phones do things the manual says they can't.</p></div>
+      <div class="pc reveal" style="--r:1.6deg;--d:.05s"><span class="stamp">INT.02</span><span class="ic">💭</span><h3>Imaginary operating systems</h3><p>Sketching OS concepts like Aurora.os. Boot screens first, kernels someday.</p></div>
+      <div class="pc reveal" style="--r:-1.4deg;--d:.1s"><span class="stamp">INT.03</span><span class="ic">⌨️</span><h3>Terminal aesthetics</h3><p>If it can be done in a terminal, I'd at least like to try it in one.</p></div>
+      <div class="pc reveal" style="--r:2deg;--d:.15s"><span class="stamp">INT.04</span><span class="ic">🕸️</span><h3>Hand-made web</h3><p>Plain HTML/CSS/JS, view-source archaeology, GitHub Pages as a playground.</p></div>
+      <div class="pc reveal" style="--r:1.8deg"><span class="stamp">INT.05</span><span class="ic">🤖</span><h3>Android modding</h3><p>APKs, reverse engineering, and respectful curiosity about how apps tick.</p></div>
+      <div class="pc reveal" style="--r:-2.2deg;--d:.05s"><span class="stamp">INT.06</span><span class="ic">🎮</span><h3>Game-dev curiosity</h3><p>Reading Unity C# to learn the loops, physics and input behind games.</p></div>
+      <div class="pc reveal" style="--r:1.2deg;--d:.1s"><span class="stamp">INT.07</span><span class="ic">🎬</span><h3>Movie nights</h3><p>Two of my earliest projects were movie apps. The taste never left.</p></div>
+      <div class="pc reveal" style="--r:-1.6deg;--d:.15s"><span class="stamp">INT.08</span><span class="ic">🌱</span><h3>Open-source culture</h3><p>Fork, learn, credit, repeat. The kindest classroom on the internet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="now" style="background:#0c0f15;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <header class="s-head reveal">
+      <p class="mono s-index">06</p>
+      <h2 class="s-title" data-scramble data-text="current process">current process</h2>
+      <p class="s-sub">What this hobbyist is compiling right now.</p>
+    </header>
+    <div class="now-grid">
+      <div class="now-card reveal">
+        <h3>building</h3>
+        <h4>Aurora.os</h4>
+        <p>Dreaming up a personal OS in TypeScript. Boot splash done in my head; now the fun part — everything else.</p>
+        <div class="pct">progress · 42% (optimistic)</div>
+        <div class="mini-track"><span class="mini-fill" data-w="42"></span></div>
+      </div>
+      <div class="now-card reveal" style="--d:.08s">
+        <h3>learning</h3>
+        <ul>
+          <li>TypeScript — types are growing on me</li>
+          <li>React Native — apps beyond the browser</li>
+          <li>Linux internals — what happens after the bootloader</li>
+          <li>Shell scripting — automating the boring bits</li>
+          <li>Git workflows — branches without fear</li>
+        </ul>
+      </div>
+      <div class="now-card reveal" style="--d:.16s">
+        <h3>next in queue</h3>
+        <ul>
+          <li>Ship Aurora.os v0.1, however tiny</li>
+          <li>Write a first "what I learned" post</li>
+          <li>Contribute upstream to one of my forks</li>
+          <li>Rebuild the calculator with everything I know now</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <p class="mono s-index reveal">07 — transmission</p>
+    <h2 class="reveal">let's learn<br><em>together.</em></h2>
+    <p class="reveal" style="--d:.08s">I'm a hobbyist, which means the best way to reach me is where the learning happens: on GitHub. Star a repo, open an issue, suggest a project to dissect, or just say hi — beginners and beginners-at-heart welcome.</p>
+    <div class="hero-cta reveal" style="--d:.14s">
+      <a class="btn btn-solid" href="https://github.com/Arcadegamer254" target="_blank" rel="noopener">github.com/Arcadegamer254 ↗</a>
+      <a class="btn" href="https://github.com/Arcadegamer254?tab=repositories" target="_blank" rel="noopener">browse repos</a>
+      <a class="btn" href="#top" data-scroll>back to top ↑</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© <span id="yr">2026</span> arcadegamer254 · handcrafted single file · no frameworks harmed</span>
+    <span>deployed on <a href="https://github.com/Arcadegamer254/Arcadegamer254.github.io" target="_blank" rel="noopener">github pages</a> · status: <span style="color:var(--acid)">learning…</span></span>
+  </div>
+</footer>
+
+<a id="toTop" href="#top" aria-label="Back to top">↑</a>
+
+<script>
+(function(){
+"use strict";
+var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+var tt = document.getElementById('tickerTrack');
+tt.innerHTML += tt.innerHTML;
+
+/* ---------- smooth scroll helper (used by nav, menu & anchors) ---------- */
+function scrollToId(id){
+  var target = document.getElementById(id);
+  if (!target) return;
+  var top = target.getBoundingClientRect().top + window.scrollY - 70;
+  window.scrollTo({top: Math.max(0, top), behavior: REDUCED ? 'auto' : 'smooth'});
+}
+
+/* all in-page anchors: intercept, close menu, then scroll — no blank flashes */
+function bindInPageLinks(scope){
+  var anchors = (scope || document).querySelectorAll('a[href^="#"]');
+  anchors.forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var id = a.getAttribute('href').slice(1);
+      if (!id || !document.getElementById(id)) return;
+      ev.preventDefault();
+      closeMenu();
+      setTimeout(function(){ scrollToId(id); }, 40);
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+    });
+  });
+}
+
+/* ---------- mobile menu (bulletproof open/close) ---------- */
+var burger = document.getElementById('burger');
+var mmenu = document.getElementById('mmenu');
+function openMenu(){
+  document.body.classList.add('menu-open');
+  burger.setAttribute('aria-expanded','true');
+  mmenu.setAttribute('aria-hidden','false');
+}
+function closeMenu(){
+  document.body.classList.remove('menu-open');
+  burger.setAttribute('aria-expanded','false');
+  mmenu.setAttribute('aria-hidden','true');
+}
+burger.addEventListener('click', function(){
+  if (document.body.classList.contains('menu-open')) closeMenu(); else openMenu();
+});
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeMenu(); });
+
+/* ---------- scroll: progress bar, nav, toTop, timeline fill ---------- */
+var prog = document.getElementById('scrollProgress'),
+    nav = document.getElementById('nav'),
+    toTop = document.getElementById('toTop'),
+    tl = document.getElementById('timeline'),
+    tlFill = document.getElementById('tlFill');
+
+function onScroll(){
+  var st = window.scrollY || document.documentElement.scrollTop;
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+  nav.classList.toggle('scrolled', st > 24);
+  toTop.classList.toggle('show', st > 600);
+  if (tl){
+    var r = tl.getBoundingClientRect();
+    var p = Math.min(1, Math.max(0, (window.innerHeight * 0.75 - r.top) / r.height));
+    tlFill.style.height = (p * 100).toFixed(2) + '%';
+  }
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ---------- scramble decode ---------- */
+function scramble(el){
+  var finalText = el.getAttribute('data-text') || el.textContent.trim();
+  if (REDUCED){ el.textContent = finalText; return; }
+  var glyphs = '▓▒░#</>[]{}=+*01';
+  var frame = 0, total = Math.max(24, Math.floor(finalText.length * 2.2));
+  var iv = setInterval(function(){
+    frame++;
+    var done = Math.floor((frame / total) * finalText.length);
+    var out = '';
+    for (var i = 0; i < finalText.length; i++){
+      var ch = finalText[i];
+      out += (i < done) ? ch : (ch === ' ' ? ' ' : glyphs[Math.floor(Math.random() * glyphs.length)]);
+    }
+    el.textContent = out;
+    if (frame >= total){ clearInterval(iv); el.textContent = finalText; }
+  }, 30);
+}
+
+var heroName = document.getElementById('heroName');
+setTimeout(function(){
+  if (REDUCED) return;
+  var finalText = heroName.getAttribute('data-text');
+  var glyphs = '▓▒░#</>[]{}=+*01';
+  var frame = 0, total = 46;
+  var iv = setInterval(function(){
+    frame++;
+    var done = Math.floor((frame / total) * finalText.length);
+    var out = '';
+    for (var i = 0; i < finalText.length; i++){
+      var ch = finalText[i];
+      out += (i < done) ? ch : glyphs[Math.floor(Math.random() * glyphs.length)];
+    }
+    heroName.textContent = out;
+    if (frame >= total){
+      clearInterval(iv);
+      heroName.innerHTML = 'ARCADEGAMER<em>254</em>';
+    }
+  }, 30);
+}, 250);
+
+/* ---------- terminal typing ---------- */
+var termLines = [
+  {cmd:'whoami'},
+  {out:'arcadegamer254 — technology hobbyist · perpetual student'},
+  {cmd:'cat status.txt'},
+  {out:'learning ▸ building ▸ shipping · est. jun 2024'},
+  {cmd:'ls toolbox/'},
+  {out:'html  css  javascript  typescript  shell  termux  react-native  unity  git'}
+];
+var termBody = document.getElementById('termBody');
+function runTerm(){
+  if (REDUCED){
+    termLines.forEach(function(L){
+      var d = document.createElement('div');
+      if (L.cmd){ d.className = 't-cmd'; d.textContent = 'arcade@workspace:~$ ' + L.cmd; }
+      else { d.className = 't-out'; d.textContent = L.out; }
+      termBody.appendChild(d);
+    });
+    termBody.insertAdjacentHTML('beforeend','<div class="t-cmd">arcade@workspace:~$ <span class="caret"></span></div>');
+    return;
+  }
+  var li = 0;
+  function nextLine(){
+    if (li >= termLines.length){
+      termBody.insertAdjacentHTML('beforeend','<div class="t-cmd">arcade@workspace:~$ <span class="caret"></span></div>');
+      return;
+    }
+    var L = termLines[li++];
+    var d = document.createElement('div');
+    termBody.appendChild(d);
+    if (L.cmd){
+      d.className = 't-cmd';
+      var prompt = 'arcade@workspace:~$ ', i = 0;
+      d.textContent = prompt;
+      var iv = setInterval(function(){
+        i++;
+        d.textContent = prompt + L.cmd.slice(0, i);
+        if (i >= L.cmd.length){ clearInterval(iv); setTimeout(nextLine, 380); }
+      }, 52);
+    } else {
+      d.className = 't-out';
+      setTimeout(function(){ d.textContent = L.out; setTimeout(nextLine, 520); }, 240);
+    }
+  }
+  nextLine();
+}
+setTimeout(runTerm, 600);
+
+/* ---------- reveal observer ---------- */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (!e.isIntersecting) return;
+    var el = e.target;
+    el.classList.add('in');
+    if (el.hasAttribute('data-scramble') && !el._scr){ el._scr = true; scramble(el); }
+    var fills = el.querySelectorAll('.bar-fill, .mini-fill, .id-langs .track b');
+    fills.forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
+    io.unobserve(el);
+  });
+}, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal, .s-title, .id-card').forEach(function(el){ io.observe(el); });
+
+/* ---------- project filters ---------- */
+var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+var pcards = Array.prototype.slice.call(document.querySelectorAll('.p-card'));
+var pcount = document.getElementById('pcount');
+function applyFilter(f){
+  var n = 0;
+  pcards.forEach(function(card){
+    clearTimeout(card._ft);
+    var match = (f === 'all') || card.getAttribute('data-cat').split(' ').indexOf(f) !== -1;
+    if (match){
+      n++;
+      card.classList.remove('gone');
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ card.classList.remove('fade'); }); });
+    } else {
+      card.classList.add('fade');
+      card._ft = setTimeout(function(){ card.classList.add('gone'); }, 250);
+    }
+  });
+  pcount.textContent = n + ' highlight' + (n === 1 ? '' : 's') + ' shown · 15 public repositories in total';
+}
+chips.forEach(function(ch){
+  ch.addEventListener('click', function(){
+    chips.forEach(function(c){ c.classList.toggle('active', c === ch); });
+    applyFilter(ch.getAttribute('data-filter'));
+  });
+});
+
+/* ---------- nav active link ---------- */
+var secIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (e.isIntersecting){
+      var id = e.target.id;
+      document.querySelectorAll('.links a').forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, {rootMargin:'-40% 0px -55% 0px'});
+['about','stack','projects','journey','interests','contact'].forEach(function(id){
+  var s = document.getElementById(id); if (s) secIO.observe(s);
+});
+
+/* ---------- hero glow parallax ---------- */
+var glow = document.getElementById('heroGlow');
+if (glow && !REDUCED){
+  window.addEventListener('mousemove', function(e){
+    var x = (e.clientX / window.innerWidth - .5) * 40;
+    var y = (e.clientY / window.innerHeight - .5) * 40;
+    glow.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }, {passive:true});
+}
+
+/* ---------- live github data ---------- */
+function setTxt(id, v){ var el = document.getElementById(id); if (el) el.textContent = v; }
+async function loadLive(){
+  var dot = document.getElementById('liveDot'), lab = document.getElementById('liveLabel');
+  try{
+    var ur = await fetch('https://api.github.com/users/Arcadegamer254', {headers:{'Accept':'application/vnd.github+json'}});
+    if (!ur.ok) throw new Error('rate');
+    var u = await ur.json();
+    setTxt('live-repos', u.public_repos);
+    setTxt('live-followers', u.followers);
+    setTxt('live-following', u.following);
+    var rr = await fetch('https://api.github.com/users/Arcadegamer254/repos?per_page=100&sort=pushed');
+    if (rr.ok){
+      var repos = await rr.json();
+      var feed = document.getElementById('feed');
+      feed.innerHTML = '';
+      repos.slice(0, 4).forEach(function(rp){
+        var d = new Date(rp.pushed_at);
+        var a = document.createElement('a');
+        a.className = 'feed-item'; a.href = rp.html_url; a.target = '_blank'; a.rel = 'noopener';
+        var name = document.createElement('span'); name.className = 'f-name'; name.textContent = rp.name;
+        var date = document.createElement('span'); date.className = 'f-date';
+        date.textContent = d.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+        var dotEl = document.createElement('span'); dotEl.className = 'f-dot';
+        a.appendChild(dotEl); a.appendChild(name); a.appendChild(date);
+        feed.appendChild(a);
+      });
+    }
+    dot.classList.add('ok');
+    lab.textContent = 'live · api.github.com';
+  }catch(e){
+    dot.classList.remove('ok');
+    lab.textContent = 'snapshot · github.com/Arcadegamer254';
+  }
+}
+loadLive();
+
+/* bind anchors last so the menu is fully wired */
+bindInPageLinks(document);
+})();
+</script>
+</body>
+</html>
+```
