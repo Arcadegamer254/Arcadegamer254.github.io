@@ -1,9 +1,68 @@
-{
-  "branch": null,
-  "content": "<h1 align=\"center\">arcadegamer254</h1>\n\n<p align=\"center\">\n  <b>Technology hobbyist · Learning in public</b><br>\n  Tinkerer of phones, terminals and half-finished operating systems.<br>\n  Permanently under construction — on purpose.\n</p>\n\n<p align=\"center\">\n  <a href=\"https://arcadegamer254.github.io\">\n    <img src=\"https://img.shields.io/badge/🌐_visit_my_website-arcadegamer254.github.io-c8f542?style=for-the-badge&logoColor=white\" alt=\"My Website\">\n  </a>\n  <a href=\"https://www.instagram.com/arcadegamer254\">\n    <img src=\"https://img.shields.io/badge/📸_instagram-arcadegamer254-E4405F?style=for-the-badge&logo=instagram&logoColor=white\" alt=\"Instagram\">\n  </a>\n  <a href=\"https://github.com/Arcadegamer254\">\n    <img src=\"https://img.shields.io/badge/💻_github-Arcadegamer254-181717?style=for-the-badge&logo=github&logoColor=white\" alt=\"GitHub\">\n  </a>\n</p>\n\n<p align=\"center\">\n  <img src=\"https://img.shields.io/github/last-commit/Arcadegamer254/Arcadegamer254.github.io?style=flat-square&label=last%20update\" alt=\"last commit\">\n  <img src=\"https://img.shields.io/badge/built%20with-HTML%20%2B%20CSS%20%2B%20JS-161b26?style=flat-square\" alt=\"stack\">\n  <img src=\"https://img.shields.io/badge/frameworks-none-c8f542?style=flat-square\" alt=\"no frameworks\">\n</p>\n\n---\n\n## 🖥️ About this portfolio\n\nThis repository hosts my personal website — a single-file portfolio that introduces me as a\nself-taught technology hobbyist. It tells my story, maps my skills, and collects every\nproject I've made, forked and studied since I started learning in **June 2024**.\n\nNo frameworks, no build step — just hand-made HTML, CSS and JavaScript, deployed on GitHub Pages.\n\n**🔗 Live website → [https://arcadegamer254.github.io](https://arcadegamer254.github.io)**\n\n---\n\n## ✨ What's on the site\n\n| Section | What it shows |\n|---|---|\n| 🪪 **Hero + ID card** | Scramble-decode intro, animated terminal, live GitHub stats |\n| 👤 **whoami** | My story as a hobbyist + personal principles |\n| 🧰 **The toolbox** | Honest, self-assessed skill meters |\n| 🔧 **The workshop** | All projects & forks, filterable by category |\n| 📜 **Commit history** | My journey timeline from June 2024 → today |\n| 🌱 **Off the main branch** | Interests: pocket Linux, OS dreams, terminals, hand-made web |\n| ⚙️ **Current process** | What I'm building, learning, and planning next |\n\n**Highlights**\n\n- 📡 Live repo, follower & activity feed from the GitHub API\n- 🌊 Fluid animations: typing terminal, scroll reveals, animated skill bars, timeline draw\n- 🔍 Filterable project grid (OS lab · Linux-on-Android · Web · Games · Tools)\n- 📱 Fully responsive with mobile menu\n- ♿ Respects `prefers-reduced-motion`\n\n---\n\n## 🧱 Tech stack\n\n```\nHTML5 · CSS3 · vanilla JavaScript · GitHub Pages · GitHub REST API · Fontsource fonts\n```\n\n---\n\n## 🛠️ My playground\n\n<p>\n  <img src=\"https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black\" alt=\"Linux\">\n  <img src=\"https://img.shields.io/badge/Termux-000000?style=flat-square&logo=termux&logoColor=white\" alt=\"Termux\">\n  <img src=\"https://img.shields.io/badge/Shell_Script-4EAA25?style=flat-square&logo=gnubash&logoColor=white\" alt=\"Shell\">\n  <img src=\"https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white\" alt=\"HTML5\">\n  <img src=\"https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white\" alt=\"CSS3\">\n  <img src=\"https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black\" alt=\"JavaScript\">\n  <img src=\"https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white\" alt=\"TypeScript\">\n  <img src=\"https://img.shields.io/badge/React_Native-learning-61DAFB?style=flat-square&logo=react&logoColor=black\" alt=\"React Native\">\n  <img src=\"https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white\" alt=\"Git\">\n  <img src=\"https://img.shields.io/badge/Unity-curious-000000?style=flat-square&logo=unity&logoColor=white\" alt=\"Unity\">\n  <img src=\"https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=black\" alt=\"Android\">\n</p>\n\n---\n\n## 📫 Let's connect\n\nI'm a hobbyist, which means the best way to reach me is where the learning happens.\n\n| Where | Link |\n|---|---|\n| 🌐 Website | [arcadegamer254.github.io](https://arcadegamer254.github.io) |\n| 💻 GitHub | [@Arcadegamer254](https://github.com/Arcadegamer254) |\n| 📸 Instagram | [@arcadegamer254](https://www.instagram.com/arcadegamer254) |\n\nStar a repo, open an issue, suggest a project to dissect, or just say hi —\nbeginners and beginners-at-heart welcome.\n\n---\n\n<p align=\"center\">\n  <sub>handcrafted single-file site · learning in public since June 2024 · <b>status: curious</b> 🌱</sub>\n</p>\n",
-  "message": "Fix README: remove stray code fences so README renders on GitHub",
-  "owner": "Arcadegamer254",
-  "path": "README.md",
-  "repo": "Arcadegamer254.github.io",
-  "sha": "3f1862706a7e2f41966aaed07d3c20b4f423c3cc"
-}
+arcadegamer254
+
+Technology hobbyist · Learning in public
+
+Tinkerer of phones, terminals and half-finished operating systems.
+Permanently under construction — on purpose.
+
+  
+
+  
+
+  
+
+🖥️ About this portfolio
+
+This repository hosts my personal website — a single-file portfolio that introduces me as a
+self-taught technology hobbyist. It tells my story, maps my skills, and collects every
+project I've made, forked and studied since I started learning in June 2024.
+
+No frameworks, no build step — just hand-made HTML, CSS and JavaScript, deployed on GitHub Pages.
+
+🌐 Live website → https://arcadegamer254.github.io
+
+✨ What's on the site
+
+| Section | What it shows |
+| --- | --- |
+| 🪪 Hero + ID card | Scramble-decode intro, animated terminal, live GitHub stats |
+| 👤 whoami | My story as a hobbyist + personal principles |
+| 🧰 The toolbox | Honest, self-assessed skill meters |
+| 🔧 The workshop | All projects & forks, filterable by category |
+| 📜 Commit history | My journey timeline from June 2024 → today |
+| 🌱 Off the main branch | Interests: pocket Linux, OS dreams, terminals, hand-made web |
+| ⚙️ Current process | What I'm building, learning, and planning next |
+
+Highlights
+
+📡 Live repo, follower & activity feed pulled from the GitHub API
+🌊 Fluid animations: typing terminal, scroll reveals, animated skill bars, timeline draw
+🔍 Filterable project grid — OS lab · Linux-on-Android · Web · Games · Tools
+📱 Fully responsive with a mobile menu
+♿ Respects prefers-reduced-motion
+
+🧱 Built with
+
+HTML5 · CSS3 · vanilla JavaScript
+GitHub Pages for hosting
+GitHub REST API for live stats
+Fontsource for fonts
+
+🛠️ My playground
+
+          
+
+📫 Let's connect
+
+I'm a hobbyist, which means the best way to reach me is where the learning happens.
+
+| Where | Link |
+| --- | --- |
+| 🌐 Website | arcadegamer254.github.io |
+| 💻 GitHub | @Arcadegamer254 |
+| 📸 Instagram | @arcadegamer254 |
+
+Star a repo, open an issue, suggest a project to dissect, or just say hi —
+beginners and beginners-at-heart welcome.
+
+handcrafted single-file site · learning in public since June 2024 · status: curious 🌱
